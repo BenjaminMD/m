@@ -9,11 +9,7 @@ def get_Rw(lines):
     for line in lines.split('\n'):
         if line.startswith('Rw'):
             return float(line.split()[-1])
-def get_param(lines, param):
-    param_list = fnmatch.filter(lines.split('\n'), f'*{param}*')
-    param_list = [p.split('+/-')[0] for p in param_list]
-    param_dict = {p.split()[0]: float(p.split()[1]) for p in param_list}
-    return param_dict
+
 
 
 def get_lat(lines):
