@@ -1,0 +1,3 @@
+[submodule "0r/bf-dpcmi"]
+	path = 0r/bf-dpcmi
+	url = https://github.com/BenjaminMD/BatchFitDiffPy
