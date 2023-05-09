@@ -1,3 +1,6 @@
 [submodule "0r/bf-dpcmi"]
 	path = 0r/bf-dpcmi
-	url = https://github.com/BenjaminMD/BatchFitDiffPy
+	url = git@github.com:BenjaminMD/BatchFitDiffPy.git
+[submodule "1r/ezfit"]
+	path = 1r/ezfit
+	url = git@github.com:BenjaminMD/ezfit.git
