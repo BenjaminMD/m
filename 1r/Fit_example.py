@@ -21,7 +21,7 @@ fit.apply_restraints()
 #fit.run_fit()
 fc = fit.recipe.PDF
 p = fc.profile
-p.setCalculationRange(1.5, 5, 1)
+p.setCalculationRange(1, 10, 1)
 fit.recipe.free('all')
 print(fit.recipe.residual([1, 1, 1, 1, 1, 1]))
 
