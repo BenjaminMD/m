@@ -24,5 +24,5 @@ free = ["cfs", "occ"]
 fix = []
 
 [[param_order]]
-free = ["delta2", "adp"]
+free = ["delta2", "adp", "xyz"]
 fix = []
