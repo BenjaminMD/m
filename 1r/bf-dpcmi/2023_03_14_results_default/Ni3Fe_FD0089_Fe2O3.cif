@@ -1,0 +1,39 @@
+data_Maghemite
+
+_computing_structure_solution     'FOX http://objcryst.sourceforge.net'
+
+_symmetry_space_group_name_H-M    'P 43 3 2'
+_symmetry_space_group_name_Hall   ' P 4acd 2ab 3'
+
+_cell_length_a    100.00000
+_cell_length_b    100.00000
+_cell_length_c    100.00000
+_cell_angle_alpha  90.000
+_cell_angle_beta   90.000
+_cell_angle_gamma  90.000
+_cell_volume      1000000.00
+loop_
+    _atom_site_label
+    _atom_site_type_symbol
+    _atom_site_fract_x
+    _atom_site_fract_y
+    _atom_site_fract_z
+    _atom_site_U_iso_or_equiv
+    _atom_site_occupancy
+    _atom_site_adp_type
+    Fe1        Fe        0.992100  0.992100  0.992100 96394264637.925400 1.0000 Uiso
+    Fe2        Fe       9477150406619.609375 9477150406618.359375  0.875000 108370718950.504730 1.0000 Uiso
+    Fe3        Fe        0.375000  0.125000  0.875000 99200254869.770020 0.3350 Uiso
+    O1         O         0.861000  0.861000  0.861000 63011629213.558121 1.0000 Uiso
+    O2         O        -4750786659910.485352 8553252577082.775391 -12693363982698.470703 26704164323.186703 1.0000 Uiso
+
+#  Dynamical occupancy corrections found by ObjCryst++:
+#  values below 1. (100%) indicate a correction,
+#  which means either that the atom is on a special position,
+#  or that it is overlapping with another identical atom.
+#   Fe1              : 0.3333
+#   Fe2              : 0.5000
+#   Fe3              : 0.1667
+#   O1               : 0.3333
+#   O2               : 1.0000
+#

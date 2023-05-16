@@ -3,12 +3,14 @@ from ezpdf import ParseResDir
 from glob import glob
 from pathlib import Path
 from datetime import datetime, timedelta
+import datetime as dt
 from typing import Type, TypeAlias, Dict, Union
 import numpy.typing as npt
 import pandas as pd
 import numpy as np
 import h5py
 
+import matplotlib.pyplot as plt
 
 StrArray: TypeAlias = npt.NDArray[np.str_]
 FloatArray: TypeAlias = npt.NDArray[np.float64]
@@ -48,6 +50,19 @@ def compute_time_passed(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def get_T(df_dt, df_temp, start_time, end_time):
+    df_dt['dt'] = pd.to_datetime(df_dt['dt'])
+    df_temp['dt'] = pd.to_datetime(df_temp['dt'])
+    period = df_temp[(df_temp.dt >= start_time) & (df_temp.dt <= end_time)]
+    if len(period) == 0:
+        # find first data point earlier than start_time
+        start_time = df_temp[df_temp.dt < start_time].dt.max()
+        period = df_temp[(df_temp.dt >= start_time) & (df_temp.dt <= end_time)]
+    T_avg = period["T"].mean()
+    T_avg = round(T_avg, 2)
+    return T_avg
+
+
 def merge_df(df: pd.DataFrame, dfT: pd.DataFrame) -> pd.DataFrame:
     # match up times in df and dfT and add T to each file_name
     ...
@@ -78,29 +93,97 @@ def get_combined_df(
 
     for fn, file in zip(df["file_name"], time_files):
         time = get_time_h5(file)
-        df.loc[df["file_name"] == fn, "mdt"] = time
+        df.loc[df["file_name"] == fn, "dt"] = time + pd.Timedelta(days=2)
 
-    df["mt / s"] = (df["mdt"] - df["mdt"].min()).dt.total_seconds()
+    df["t / s"] = (df["dt"] - df["dt"].min()).dt.total_seconds() 
 
-    print(df.head())
     dfT = read_temperture_file(T_file)
     dfT = compute_time_passed(dfT)
+    t_s = df['dt']
+    t_e = df['dt'] +  pd.Timedelta(seconds=31)
 
-    df = merge_df(df, dfT)
+    df['T_avg / °C'] = [get_T(df, dfT, s, e) for s, e in zip(t_s, t_e)]
+    return df
 
+def add_ms(df: pd.DataFrame, df_ms: pd.DataFrame) -> pd.DataFrame:
+    start_time = df.dt
+    end_time = df.dt +  pd.Timedelta(seconds=31)
+    ms = []
+    for s, e in zip(start_time, end_time):
+        period = df_ms[(df_ms['time'] >= s) & (df_ms['time'] <= e)]
+        if len(period) == 0:
+            # find first data point earlier than start_time
+            s = df_ms[df_ms['time'] < s]["time"].max()
+            period = df_ms[(df_ms['time'] >= s) & (df_ms['time'] <= e)]
+        ms.append(period.mean())
+    df[[*df_ms.columns[1:]]] = ms
     return df
 
 
 def main():
+    
+    _()
+
+def ms():
+    path_to_ms = Path(__file__).parent / ".." / "0d" / "MS_UC1.csv"
+    t, tt, H, He, N2, CH4, H2O, CO, O2, CO2, *_ = np.loadtxt(
+                                path_to_ms,
+                                skiprows=29,
+                                delimiter=',',
+                                dtype=str).T
+    tt = tt.astype(int)
+    time = datetime.strptime("21/01/2022 01:02:33", "%d/%m/%Y %H:%M:%S")
+    time = np.array([time + timedelta(days=2, milliseconds=int(t)) for t in tt])
+    
+    data = {
+            'time': time,
+            'H': H, 'He': He, 'N2': N2, 'CH4': CH4,
+            'H2O': H2O, 'CO': CO, 'O2': O2, 'CO2': CO2
+        }
+
+    for k, v in data.items():
+        if k != 'time':
+            print(k)
+            data[k] = v.astype(float)
+    df = pd.DataFrame(data)
+    return df
+
+
+def _():
+    df_ms = ms()
     dat_base = Path(__file__).parent / "../0d/"
     res_glob = f"{Path(__file__).parent}/../0d/res/*res"
     par_file = Path(__file__).parent / "parameters.wAl2O3.txt"
-    T_file = Path(__file__).parent / ".." / "0d" / "220121_UC1_Al2O3.csv"
+    T_file = Path(__file__).parent / ".." / "0d" / "TC_UC1.csv"
     t_files = glob(f"{dat_base}/h5/*.h5")
 
 
     get_time_h5(t_files[0])
     df = get_combined_df(t_files, res_glob, par_file, T_file)
+
+    add_ms(df, df_ms)
+
+
+
+
+
+
+
+    fig, ax = create_basic_plot("t / h", "T_avg / °C")
+
+    ax.plot(df.dt, df["T_avg / °C"], label="T_avg / °C")
+    axr = ax.twinx()
+    color_cycle = axr._get_lines.prop_cycler
+    axr.set_ylabel("$p^{\prime}$H / ")
+    
+    C = next(color_cycle)
+    c = next(color_cycle)
+
+    axr.plot(df.dt, df.H, label="H", color=c['color'])
+    ax.legend()
+    print(df)
+    df.to_csv("FelixStinkt.csv")
+    plt.show()
 
 
 
