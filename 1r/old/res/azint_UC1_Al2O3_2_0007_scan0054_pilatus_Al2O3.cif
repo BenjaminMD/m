@@ -1,0 +1,37 @@
+data_Al2.666_O3.999
+
+_computing_structure_solution     'FOX http://objcryst.sourceforge.net'
+
+_symmetry_space_group_name_H-M    'I 41/a m d:2'
+_symmetry_space_group_name_Hall   '-I 4bd 2'
+
+_cell_length_a     5.65212
+_cell_length_b     5.65212
+_cell_length_c     7.84892
+_cell_angle_alpha  90.000
+_cell_angle_beta   90.000
+_cell_angle_gamma  90.000
+_cell_volume       250.74
+loop_
+    _atom_site_label
+    _atom_site_type_symbol
+    _atom_site_fract_x
+    _atom_site_fract_y
+    _atom_site_fract_z
+    _atom_site_U_iso_or_equiv
+    _atom_site_occupancy
+    _atom_site_adp_type
+    Al2        Al        0.000000  0.000000  0.000000  0.043003 0.3600 Uiso
+    Al3        Al        0.000000  0.000000  0.500000  0.015992 0.5800 Uiso
+    Al1        Al        0.000000  0.750000  0.125000  0.006843 0.7800 Uiso
+    O1         O         0.000000  0.007600  0.251600  0.022091 1.0000 Uiso
+
+#  Dynamical occupancy corrections found by ObjCryst++:
+#  values below 1. (100%) indicate a correction,
+#  which means either that the atom is on a special position,
+#  or that it is overlapping with another identical atom.
+#   Al2              : 0.2500
+#   Al3              : 0.2500
+#   Al1              : 0.1250
+#   O1               : 0.5000
+#

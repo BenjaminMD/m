@@ -219,4 +219,4 @@ loop_
    _atom_site_adp_type
    _atom_site_U_iso_or_equiv
    _atom_site_type_symbol
-   Ni         1.0     0.000000     0.000000     0.000000    Uiso  ? Ni
+   Ni0         1.0     0.000000     0.000000     0.000000    Uiso  ? Ni

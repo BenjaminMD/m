@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Set default values
+lines_to_keep=0
+output_directory="output"
+
+# Parse command line arguments
+while getopts ":n:o:" opt; do
+  case $opt in
+    n)
+      lines_to_keep=$OPTARG
+      ;;
+    o)
+      output_directory=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Remove the options from the argument list
+shift $((OPTIND - 1))
+
+# Check if output directory already exists, create if necessary
+if [ ! -d "$output_directory" ]; then
+  mkdir "$output_directory"
+fi
+
+# Iterate over each file argument
+for file in "$@"; do
+  # Check if file exists
+  if [ -f "$file" ]; then
+    # Get the filename without the directory path
+    filename=$(basename "$file")
+    
+    # Construct the output file path
+    output_file="$output_directory/$filename"
+
+    # Keep the specified number of lines in the file
+    head -n "$lines_to_keep" "$file" > "$output_file"
+
+    echo "Processed $file. Kept $lines_to_keep lines. Saved as $output_file"
+  else
+    echo "File not found: $file"
+  fi
+done

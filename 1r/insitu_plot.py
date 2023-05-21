@@ -99,6 +99,7 @@ def get_combined_df(
 
     dfT = read_temperture_file(T_file)
     dfT = compute_time_passed(dfT)
+    dfT.dt = dfT.dt - pd.Timedelta(hours=1)
     t_s = df['dt']
     t_e = df['dt'] +  pd.Timedelta(seconds=31)
 
@@ -116,7 +117,8 @@ def add_ms(df: pd.DataFrame, df_ms: pd.DataFrame) -> pd.DataFrame:
             s = df_ms[df_ms['time'] < s]["time"].max()
             period = df_ms[(df_ms['time'] >= s) & (df_ms['time'] <= e)]
         ms.append(period.mean())
-    df[[*df_ms.columns[1:]]] = ms
+    print(ms, df_ms.columns)
+    df[df_ms.columns] = ms
     return df
 
 
@@ -133,7 +135,7 @@ def ms():
                                 dtype=str).T
     tt = tt.astype(int)
     time = datetime.strptime("21/01/2022 01:02:33", "%d/%m/%Y %H:%M:%S")
-    time = np.array([time + timedelta(days=2, milliseconds=int(t)) for t in tt])
+    time = np.array([time + timedelta(days=2, milliseconds=int(t)) - timedelta(hours=1) for t in tt])
     
     data = {
             'time': time,
