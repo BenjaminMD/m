@@ -11,7 +11,7 @@ from datetime import datetime
 startTime = datetime.now()
 
 
-OUT_DIR ='../../0d/res/'
+OUT_DIR ='../../0d/res_delta4/'
 CONF_PATH = './FitConfig.json'
 
 
@@ -21,20 +21,20 @@ conf = read_config(CONF_PATH)
 def RunFit(dat_file):
     Fit = DiffpyFit(
             conf,
-            ['Ni', 'NiO', 'Al2O3'],
+            ['Ni', 'NiO', 'delta4_Al2O3'],
             ['sphericalCF']*3
         )
     Fit.run_molarcontribution_fit(dat_file, OUT_DIR, 0.10)
     name = dat_file.split('/')[-1].split('.')[0]
 
 
-data_files = glob('../../0d/gr/*.gr')
+data_files = glob('../../0d/gr/azint_UC1_Al2O3_2*.gr')
 
 
 
-res_files = glob('../../0d/res/*.res')
+res_files = glob('../../0d/res_delta4/*.res')
 
-res_files_names = ['_'.join(res.split('/')[-1].split('.')[0].split('_')[:6]) for res in res_files]
+res_files_names = ['_'.join(res.split('/')[-1].split('.')[0].split('_')[:7]) for res in res_files]
 filtered_data_files = []
 
 for dat_file in data_files:

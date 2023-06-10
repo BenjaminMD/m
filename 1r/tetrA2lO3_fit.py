@@ -16,7 +16,7 @@ def plot_tetrAl2O3():
     return fig, [[ax_top_left, ax_top_right], [ax_low_left, ax_low_right]]
 
 
-df = pd.read_csv('tetrAl2O3_UC1.csv')
+df = pd.read_csv('FelixStinkt.csv')
 # drop rows containing azint_UC1_Al2O3_0001 
 print(df.shape)
 df = df[[f.startswith('azint_UC1_Al2O3_2') for f in df.file_name]]
@@ -74,7 +74,7 @@ axs[0][1].set_ylim(10, 460)
 
 scatter_w_outline(axs[0][0], t, df['rw'], label='Rw')
 axs[0][0].set_ylabel(r'$R_\mathrm{w}\,/\,$a.u.', color="#f6a800", fontweight='bold')
-axs[0][0].set_ylim(0.30, 0.42)
+axs[0][0].set_ylim(0.25, 0.35)
 
 
 axs[0][1].fill_between(t, 0, 500, where=df['scan'] == 1, facecolor='grey', alpha=0.3)
@@ -85,7 +85,7 @@ axs[1][0].fill_between(t, 0, 100, where=df['scan'] == 1, facecolor='grey', alpha
 brown = '#8b4513'
 scatter_w_outline(axs[1][0], t, df['Ni_psize'], label='Ni size', color='green')
 scatter_w_outline(axs[1][0], t, df['NiO_psize'], label='NiO size', color=brown)
-scatter_w_outline(axs[1][0], t, df['Al2O3_psize'], label=r'$\gamma$-Al$_2$O$_3$ size', color='blue')
+scatter_w_outline(axs[1][0], t, df['delta4_Al2O3_psize'], label=r'$\gamma$-Al$_2$O$_3$ size', color='blue')
 axs[1][0].set_ylabel('Particle size$\,/\,$nm')
 axs[1][0].set_ylim(20, 65)
 axs[1][0].set_xlabel(r'$t\,/\,$h')
@@ -114,4 +114,4 @@ fig.legend(h, l,
 
 axs[0][0].set_zorder(1)
 axs[0][0].patch.set_visible(False)
-plt.savefig('../../mt/img/insitutetrAl2O3_UC1.pdf', bbox_inches='tight')
+plt.savefig('./insitutetrAl2O3_UC1.pdf', bbox_inches='tight')
