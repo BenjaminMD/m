@@ -85,7 +85,7 @@ axs[1][0].fill_between(t, 0, 100, where=df['scan'] == 1, facecolor='grey', alpha
 brown = '#8b4513'
 scatter_w_outline(axs[1][0], t, df['Ni_psize'], label='Ni size', color='green')
 scatter_w_outline(axs[1][0], t, df['NiO_psize'], label='NiO size', color=brown)
-scatter_w_outline(axs[1][0], t, df['delta4_Al2O3_psize'], label=r'$\gamma$-Al$_2$O$_3$ size', color='blue')
+scatter_w_outline(axs[1][0], t, df['Al2O3_psize'], label=r'$\gamma$-Al$_2$O$_3$ size', color='blue')
 axs[1][0].set_ylabel('Particle size$\,/\,$nm')
 axs[1][0].set_ylim(20, 65)
 axs[1][0].set_xlabel(r'$t\,/\,$h')

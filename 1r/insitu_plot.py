@@ -154,7 +154,7 @@ def ms():
 def _():
     df_ms = ms()
     dat_base = Path(__file__).parent / "../0d/"
-    res_glob = f"{Path(__file__).parent}/../0d/res_delta4/*res"
+    res_glob = f"{Path(__file__).parent}/../0d/res/*res"
     par_file = Path(__file__).parent / "parameters.wAl2O3.txt"
     T_file = Path(__file__).parent / ".." / "0d" / "TC_UC1.csv"
     t_files = glob(f"{dat_base}/h5/*.h5")
