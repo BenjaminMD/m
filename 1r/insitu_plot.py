@@ -118,7 +118,7 @@ def add_ms(df: pd.DataFrame, df_ms: pd.DataFrame) -> pd.DataFrame:
             period = df_ms[(df_ms['time'] >= s) & (df_ms['time'] <= e)]
         ms.append(period.mean())
     print(ms, df_ms.columns)
-    df[df_ms.columns] = ms
+    df[df_ms.columns[1:]] = ms
     return df
 
 
