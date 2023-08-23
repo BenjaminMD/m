@@ -1,0 +1,17 @@
+file_name
+rw
+delta4_Al2O3_a
+delta4_Al2O3_delta2
+delta4_Al2O3_psize
+delta4_Al2O3_scale
+NiO_Ni0_Biso
+NiO_O1_Biso
+NiO_a
+NiO_delta2
+NiO_psize
+NiO_scale
+Ni_Ni0_Biso
+Ni_a
+Ni_delta2
+Ni_psize
+Ni_scale

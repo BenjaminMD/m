@@ -1,65 +1,59 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-from ezplot import scatter_w_outline, plot_defaults
-from dataclasses import dataclass
+from numpy import zeros
+from EuropaCatLayout import axs, initialize_plot, COLORS
+from ezplot import scatter_w_outline
+from EuropaCatData import df, t
 import matplotlib.pyplot as plt
-import matplotlib
-import pandas as pd
-import numpy as np
-
-#matplotlib.rc('text', usetex=True)
-#matplotlib.rcParams['text.latex.preamble'] = r"\usepackage{amsmath}"
-
-# CONSTANTS
-# =========
-COLORS = [
-    "#8EBAE6",
-    "#F58E78",
-    "#9764F5",
-    "#81F5CB",
-    "#F5ED53",
-]
-
-MATH_LABELS = {
-    "t": (r"t", r"h"),
-    "rw": (r"R_\mathrm{w}", r"a.u."),
-    "T": (r"T", r"°C"),
-    "lat": (r"Lat", r"\AA"),
-    "p": (r"p", r"bar"),
-    "r": (r"r", r"\AA"),
-}
-# =========
-
-@dataclass
-class axs:
-    fig, gs = plot_defaults(2, 1)
-
-    tl = fig.add_subplot(gs[0, 0])
-    ll = fig.add_subplot(gs[1, 0], sharex=tl)
-
-    tr = tl.twinx()
-    lr = ll.twinx()
-
-    ynames = [("rw", tl), ("T", tr), ("lat", ll), ("p", lr)]
-    xnames = [("t", ll)]
 
 
-def color_labels(names, x_or_y):
-    for (name, ax), c in zip(names, COLORS):
-        label = r"${}\,/\,\mathrm{{{}}}$".format(*MATH_LABELS[name])
-        getattr(ax, f"set_{x_or_y}label")(label, color=c, fontweight="bold")
+def main():
+    initialize_plot()
+    scatter_w_outline(axs.tl, t, df.rw, color=axs.ynames[0][2])
+    axs.tl.plot(t, df.rw, axs.ynames[0][2], zorder=0) # its a class lets define a get 
+    scatter_w_outline(axs.tr, t, df["T"], color=axs.ynames[1][2])
+    axs.tr.plot(t, df["T"], axs.ynames[1][2], zorder=0)
 
-color_labels(axs.ynames, "y")
-color_labels(axs.xnames, "x")
+    scatter_w_outline(axs.ll, t, df.Ni_a, color=axs.ynames[2][2])
+    axs.ll.plot(t, df.Ni_a, axs.ynames[2][2], zorder=0)
+
+    scatter_w_outline(axs.lr, t, df.H*1e5, color=axs.ynames[3][2])
+    axs.lr.plot(t, df.H*1e5, axs.ynames[3][2], zorder=0)
     
+    c = next(COLORS)
+    c = next(COLORS)
+    scatter_w_outline(axs.lr, t, df.CO2*5e5, color=c)
+    axs.lr.plot(t, df.CO2*5e5, c, zorder=0)
 
-plt.setp(axs.tl.get_xticklabels(), visible=False)
+#    scatter_w_outline(axs.br, t, df.Ni_Ni0_Biso, color=axs.ynames[5][2])
+#    axs.br.plot(t, df.Ni_Ni0_Biso, axs.ynames[5][2], zorder=0)
 
-axs.tl.grid(True, which="both", axis="both", alpha=0.3)
-axs.ll.grid(True, which="both", axis="both", alpha=0.3)
+    scatter_w_outline(axs.br, t, df.Ni_scale, color=axs.ynames[5][2])
+    axs.br.plot(t, df.Ni_scale, axs.ynames[5][2], zorder=0)
+
+    c = next(COLORS)
+    c = next(COLORS)
+    c = next(COLORS)
+    scatter_w_outline(axs.br, t, df.NiO_scale, color=c)
+    axs.br.plot(t, df.NiO_scale , c, zorder=0)
+
+
+    scatter_w_outline(axs.bl, t, df.Ni_psize/10, color=axs.ynames[4][2])
+    axs.bl.plot(t, df.Ni_psize/10, axs.ynames[4][2], zorder=0)
+
+
+    c = next(COLORS)
+    c = next(COLORS)
+    c = next(COLORS)
+    axs.tl.fill_between(t[:260], 0, 100, where=df["scan"][:260] == 0, color=c, alpha=0.1)
+    axs.ll.fill_between(t[:260], 0, 100, where=df["scan"][:260] == 0, color=c, alpha=0.1)
+    axs.bl.fill_between(t[:260], 0, 100, where=df["scan"][:260] == 0, color=c, alpha=0.1)
+    axs.tl.fill_between(t, 0, 100, where=df["scan"] == 1, color="k", alpha=0.1)
+    axs.ll.fill_between(t, 0, 100, where=df["scan"] == 1, color="k", alpha=0.1)
+    axs.bl.fill_between(t, 0, 100, where=df["scan"] == 1, color="k", alpha=0.1)
 
 
 
+    plt.savefig("Test.pdf")
+    plt.show()
 
-plt.show()
+main()

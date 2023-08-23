@@ -5,10 +5,10 @@ import numpy as np
 from ezplot import plot_defaults, scatter_w_outline
 
 # CONSTANTS
-BROWN = '#8b4513'
-GREEN = '#008000'
-RED = '#ff0000'
-ORANGE = '#f6a800'
+PURPLE = "#7160A7"
+GREEN = "A0D3C2"
+ORANGE = "#F18C78"
+BLUE = '#f6a800'
 
 MATH_LABELS = {
     "t": (r"t", r"h"),
